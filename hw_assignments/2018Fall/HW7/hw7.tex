@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{hyperref}
+
+\title{CS 4780/5780 Homework 7\vspace{-10pt}}
+\author{Due: Tuesday 11/20/18 11:55pm on Gradescope}
+\date{}
+
+\begin{document}
+    \maketitle
+	\section*{Problem 1: Kernelized Perceptron}
+	In this problem, we are going to kernelize the perceptron algorithm. Recall the perceptron algorithm
+	
+	\begin{algorithm}[H]
+		\SetAlgoLined
+		
+		Initialize $\mathbf{w} = \vec{0}$ \;
+		\While{TRUE}{
+			m =  0 \;
+			\For{$(\mathbf{x}_i, y_i) \in D$}{
+				\If{$y_i(\mathbf{w}^T\mathbf{x}_i) \leq 0$}{
+					$\mathbf{w}\gets \mathbf{w} + y_i\mathbf{x}_i$\;
+					$m\gets m + 1$\;
+				}
+				
+				\If{$m = 0$}{
+					break
+				}
+			}
+			
+		}
+		\caption{Perceptron Algorithm}
+	\end{algorithm}
+	\noindent
+	Now, in a classification task, there are $\alpha_i$ misclassifications for each training point $\mathbf{x}_i$. We start with $\mathbf{w}=0$ and at each iteration we either add or subtract a vector $\mathbf{x}_i$. It follows that the final weight vector must take the form 
+	$$\mathbf{w} = \sum_{i=1}^{n} \alpha_i y_i \mathbf{x}_i.$$ 
+	This observation allows us to modify the perceptron algorithm such that we only need to keep track of the number of misclassifications for each training point, instead of updating $\mathbf{w}$. 
+	\begin{enumerate}[(a)]
+		\item Fill in the skeleton code so that the perceptron algorithm only needs to keep track of the number of misclassifications for each training point, instead of updating $\mathbf{w}$.
+		
+		\begin{algorithm}[H]
+			\SetAlgoLined
+			
+			Initialize \rule{7cm}{0.4pt} \;
+			\While{TRUE}{
+				m =  0 \;
+				\For{$(\mathbf{x}_i, y_i) \in D$}{
+					
+					\If{\rule{7cm}{0.4pt}}{
+						\rule{7cm}{0.4pt}\;
+						$m\gets m + 1$\;
+					}
+					
+					\If{$m = 0$}{
+						break
+					}
+				}
+				
+			}
+			\caption{Modified Perceptron Algorithm}
+		\end{algorithm}
+		
+		\item How would you modify algorithm 2 to kernelize the perceptron algorithm?
+	\end{enumerate}
+	\section*{Problem 2: Constructing Kernels}
+	In class, we have shown how to construct new kernels from existing valid kernels, following a few "kernel-preserving" rules. In this problem, we will prove that these rules indeed produce valid kernels. 
+	\newline
+	In order to justify that a function $k: \mathbb{R}^d \times \mathbb{R}^d \rightarrow \mathbb{R}$ is a valid kernel function, we can show that either of the following properties hold:
+    \begin{enumerate}
+        \item The matrix $$K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j)$$ is symmetric and positive semidefinite for any set of vectors $\mathbf{x}_1, ..., \mathbf{x}_n \in \mathbb{R}^d$
+        \item $k(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$ for some transformation
+        $\phi$
+    \end{enumerate}
+    Suppose $k_1, k_2$ are valid kernel functions. Show that the following kernels are valid: 
+	\begin{enumerate}[(a)]
+		\item $k(\mathbf{x}_1, \mathbf{x}_2) = c k_1(\mathbf{x}_1, \mathbf{x}_2)$ for any $c \geq 0$. 
+		\item $k(\mathbf{x}_1, \mathbf{x}_2) = k_1(\mathbf{x}_1, \mathbf{x}_2) + k_2(\mathbf{x}_1, \mathbf{x}_2)$ 
+		\item $k(\mathbf{x}_1, \mathbf{x}_2) = k_1(\mathbf{x}_1, \mathbf{x}_2) k_2(\mathbf{x}_1, \mathbf{x}_2)$ 
+	\end{enumerate} 
+\section*{Problem 3: Gaussian Process Regression} 
+Consider you have the following dataset: 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		No.& $x$ & $y$ \\
+		\hline
+		1 & -1 & 0 \\
+		2 & 1 & 2 \\
+		%3 & 2 & 8 \\
+		\hline
+	\end{tabular}
+\end{table}
+\newline
+and you are going to use a Gaussian Process
+$$f(x) \sim GP (m, k)$$ to model the underlying relationship between $x$ and $y$. 
+After discussing with the professor, you decide to use a function for the mean which is identically zero and a quadratic kernel 
+for your GP, namely, 
+$$m(x) = 0$$
+$$k(x, x') = (x \cdot x'+1)^2$$
+\begin{enumerate}[(a)]
+  \item Write down the kernel (i.e. covariance) of the GP prior for the given dataset. 
+  \item How does the distribution of the GP posterior change if you assume Gaussian noise with variance $\sigma^2=0.1$?
+	\item You are given the following test points:
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			No.& $x$ & $y$ \\
+			\hline
+			1 & 0 & 0.5 \\
+			2 & 2 & 4.5 \\
+			\hline
+		\end{tabular}
+	\end{table}
+	\newline
+	Assume a noise free setup. What is the mean and covariance of your GP posterior? 
+\end{enumerate}
+\end{document}

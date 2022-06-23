@@ -1,0 +1,52 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{mathabx}
+\usepackage{tikz}
+
+\setlength\parindent{0pt}
+
+\title{CS 4780/5780 Homework 5\vspace{-10pt}}
+\author{Due: Thursday 10/25/18 11:55pm on Gradescope}
+\date{\vspace{-15pt}}
+
+\begin{document}
+\maketitle
+
+\subsection*{Problem 1: Derivation for Hard-margin Linear SVMs}
+\textbf{a)} Assume your data is linearly separable. What is the strength for the hard-margin linear SVM solution over the solution found by the Perceptron?\\
+
+\textbf{b)} In class we mentioned there are two equivalent formulation of linear SVM, which is shown below.\\ Formulation A: 
+\begin{align*} &\min_{\mathbf{w},b} \mathbf{w}^\top\mathbf{w}  \\ &\textrm{s.t. } \begin{matrix} \forall_i \ y_{i}(\mathbf{w}^T \mathbf{x}_{i}+b)&\geq 0\\ \min_{i}\left | \mathbf{w}^T \mathbf{x}_{i}+b \right | &= 1 \end{matrix} \end{align*}
+\\ Formulation B:\\
+\begin{align*}
+&\min_{\mathbf{w},b} \,\mathbf{w}^\top\mathbf{w}\\
+& \textrm {s.t.} \forall i, y_i(\mathbf{w}^\top \mathbf{x}_i+b)\geq 1
+\end{align*}
+i. Assume you have found the optimal solution to the above optimization. Prove the optimal solution of formulation A is a feasible solution for formulation B. \\(Note: a feasible solution satisfies all constraints yet may not be optimal.)\\
+ii. Assume you have found the optimal solution to formulation B. Prove that this solution is a feasible solution for formulation A.\\
+iii. Prove that for the optimal solution in formulation A is the optimal solution for formulation B and vice versa.
+
+
+\subsection*{Problem 2: Hard- vs. Soft-margin SVMs}
+\textbf{a)} The Perceptron algorithm does not converge on non-linearly separable data. Does the hard-margin SVM converge on non-linearly separable data? How about the soft-margin SVM? Please explain in details.\\
+
+\textbf{b)} For the soft-margin linear SVM, we use the hyperparameter $C$ to tune how much we penalize mis-classifications. As $C\rightarrow\infty$, does the soft-margin SVM become more similar or less similar to the hard-margin SVM? As $C\rightarrow 0^+$, what happens to the solution of the soft-margin SVM? Why?\\
+
+\textbf{c)} Suppose you found a solution $(\mathbf{\hat w},\hat b)$ to the hard-margin SVM. The separating hyperplane is surrounded by a margin defined by hyperplanes $\{\mathbf{x}: \mathbf{\hat w}^\top\mathbf{x}+\hat b=1\}$ and $\{\mathbf{x}: \mathbf{\hat w}^\top\mathbf{x}+\hat b=-1\}$. Prove that at least one training data point lies on each of these margin hyperplanes.\\
+
+\end{document}

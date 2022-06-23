@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, amsfonts}
+
+\title{CS4780/5780 Homework 3}
+\author{Due: Tue. 10/02/2018 11:55pm on Gradescope}
+\date{}
+
+\begin{document}
+	
+\maketitle
+
+\section*{Problem: Estimating Probabilities from data}
+
+Suppose we are given a dataset $\mathcal{D} = \{\vec{x}_1,  ..., \vec{x}_n\}\subset \mathbb{R}^d$. We would like to model the data with a Gaussian distribution with an unknown $\vec{\mu}$ and a known covariance matrix, $I$, namely  $$\mathcal{P}(\vec{x} ; \vec{\mu}, I) = \frac{1}{\sqrt{(2\pi)^{d}}} \exp (-\frac{1}{2} (\vec{x} - \vec{\mu})^T (\vec{x} - \vec{\mu}))$$
+For estimation purposes, suppose each data point $\vec{x}_i$ is drawn independently from the above Gaussian distribution.
+\begin{enumerate}
+	\item Show how we could use Maximum Likelihood Estimation (MLE) to estimate $\vec{\mu}$ from the data $D$ by maximizing the log likelihood function, $\log P(\mathcal{D} | \vec{\mu})$. Recall that in order to find the maximizer of a function you need to set its gradient to zero. Please also compute the second derivative and verify that the point you find is indeed a maximum.  
+	
+	\item One of the problems with MLE is that we cannot introduce any prior belief on $\vec{\mu}$. For instance you could not incorporate prior knowledge that  $\vec{\mu}$ should be close to the origin. To work around this, we will use a Bayesian approach, i.e., Maximum A Posterior estimation (MAP). 
+With MAP we can introduce a prior on $\vec{\mu}$, defined by a standard Gaussian ($\vec{\mu} \sim \mathcal{N}(0, I)$), to encourage $\vec{\mu}$ to be close to the origin. 
+We can then use Bayes Rule to solve for the most likely $\vec{\mu}$ given the data and our prior belief:
+% Now, we can find an estimate of $\vec{\mu}$ that combines our prior knowledge of $\vec{\mu}$ and the information from the data $\mathcal{D}$ by maximizing the posterior $P(\vec{\mu} | \mathcal{D})$. In order to evaluate the posterior, we will need to make use of the Bayes' rule, 
+\begin{equation}
+	\vec{\mu}=\arg\max_{\vec{\mu}} P(\vec{\mu} | \mathcal{D})=\arg\max_{\vec{\mu}} \frac{P(\mathcal{D} | \vec{\mu})P(\vec{\mu})}{P(\mathcal{D})}.\label{part2}
+\end{equation}
+Find the solution for (1), following steps similar to those shown in class. (Hint: You will not need to compute $P(\mathcal{D})$.)
+% Find the solution for (\ref{part2}), following similar steps as shown in class. (Hint: You will not need to compute $P(\mathcal{D})$.)
+%Show how we can find the MAP estimate for $\vec{\mu}$ using the method shown in class 
+%(Note that in the lecture we showed how we can avoid computing ${P(\mathcal{D})}$ when doing MAP).
+	
+	\item  MAP is cool, but if you want to be really fancy you may be interested in computing the true posterior distribution, $P(\vec{\mu} | \mathcal{D})$, and not just its maximum. This can often be difficult, but for Gaussian distributions you can compute the posterior in closed form. Assume that we are going to place the same prior on $\vec{\mu}$ as in part 2. We know that by Bayes' rule: $$P(\vec{\mu} | \mathcal{D}) \propto P(\mathcal{D} | \vec{\mu})P(\vec{\mu})$$  Since the product of two Gaussian distributions is a Gaussian distribution,  the posterior has to be a Gaussian distribution too, i.e. $\vec{\mu}\sim \mathcal{N}(\vec{m}, \Sigma)$. Using this fact we can assume that 
+\begin{equation}
+P(\vec{\mu}| \mathcal{D}) =   \frac{1}{\sqrt{(2\pi)^{d} |\Sigma|}} \exp (-\frac{1}{2} (\vec{\mu} - \vec{m})^T \Sigma^{-1} (\vec{\mu} - \vec{m}))
+\end{equation}
+and we can simplify the procedure of finding the posterior to finding $\vec{m}$ and $\Sigma$. Find the parameters $\vec{m}$ and $\Sigma$ by comparing the exponents in $\mathcal{N}(\vec{m}, \Sigma)$ and $P(\mathcal{D} | \vec{\mu})P(\vec{\mu})$.
+\end{enumerate}
+
+% \section*{Cramer-Rao Inequality (Optional - for ML enthusiasts)}
+% In the lecture, we learn that to estimate the value $\gamma(\theta)$, we can find a estimator $W(X)$ for it by observing several samples $X=(X_1, \cdots, X_n)$.  Usually, our estimator is unbiased, i.e. $E_{\theta}(W(\mathbf{X})) = \gamma(\theta)$. Sometimes, there are more than one unbiased estimation, then how can we choose the best one among them? A natural idea is to choose the one with smallest variance. Cramer-Rao Inequality gives us a lower bound for an estimator: Let $X_1, \cdots, X_n$ be a sample with pdf $f(\mathbf{x}|\theta)$ ($\mathbf{x} = (x_1, \cdots x_n)$), and let $W(\mathbf{X}) = W(X_1, \cdots, X_n)$ be any estimator satisfying 
+% $$\frac{d}{d\theta}E_{\theta}W(\mathbf{X}) = \int_{\mathcal{\mathbf{x}}} \frac{\delta}{\delta\theta}[W(\mathbf{x}) f(\mathbf{x}|\theta)]d\mathbf{x}$$ 
+% and
+% $$\text{Var}_{\theta}W(\mathbf{X}) < \infty.$$
+% Then
+% \begin{equation}
+% \text{Var}_{\theta}(W(\mathbf{X})) \geq \frac{\left(\frac{d}{d\theta}E_{\theta}W(\mathbf{X})\right)^2}{E_{\theta}\left((\frac{\delta}{\delta\theta} \log f(X|\theta))^2\right)}.
+% \end{equation}
+% For all unbiased estimators for $\gamma(\theta)$, the lower bounds given by Cramer-Rao Inequality are the same. Thus, if one estimator's variance can achieve this lower bound, then we can say this estimator is the "best" unbiased estimator with minimum variance.\\
+% \\
+% Please prove the Cramer-Rao Inequality following the four steps below:
+% \begin{itemize}
+% 	\item Prove $\frac{d}{d\theta}E_{\theta}W(\mathbf{X}) = E_{\theta}(W(\mathbf{X}) \frac{\delta}{\delta\theta} \log f(\mathbf{\mathbf{X}}|\theta))$
+% 	\item Prove $\text{Cov}_{\theta}\left(W(\mathbf{X}), \frac{\delta}{\delta\theta} \log f(\mathbf{\mathbf{X}}|\theta)) = \frac{d}{d\theta}E_{\theta}W(\mathbf{X}\right)$
+% 	\item Prove $\text{Var}_{\theta}\left(\frac{\delta}{\delta\theta} \log f(\mathbf{\mathbf{X}}|\theta)\right) = E_{\theta}\left(\left(\frac{\delta}{\delta\theta} \log f(\mathbf{\mathbf{X}}|\theta)\right)^2\right)$
+% 	\item Use Cauchy- Schwarz Inequality $\text{Var}Z_1 \geq \frac{[\text{Cov}(Z_1, Z_2)]^2}{\text{Var} Z_2}$
+% \end{itemize}
+
+
+\end{document}
